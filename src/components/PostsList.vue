@@ -10,11 +10,17 @@ export default {
   mixins: [PostsMixin],
   data() {
     return {
-      display: 'list',
-      modes: [
+      view: 'list',
+      views: [
         'list',
         'tiles',
       ],
+    }
+  },
+  created() {
+    const { view } = this.$route.query
+    if (this.views.includes(view)) {
+      this.view = view
     }
   },
   computed: {
@@ -26,8 +32,13 @@ export default {
     },
   },
   methods: {
-    handleMode(event, mode) {
-      this.display = mode
+    handleView(event, view) {
+      this.view = view
+      this.$router.push({
+        query: {
+          view: view,
+        },
+      })
     },
     handleLoadMore() {
       this.setPage(this.page + 1)
@@ -39,17 +50,17 @@ export default {
 <template>
   <section
     class="posts"
-    :class="`posts--${display}`"
+    :class="`posts--${view}`"
   >
     <ul class="posts__toggle">
       <li
-        v-for="(mode, index) in modes"
+        v-for="(mode, index) in views"
         :key="index"
         class="posts__toggle_item"
         :class="{
-          'posts__toggle_item--active': mode === display
+          'posts__toggle_item--active': mode === view
         }"
-        @click="handleMode($event, mode)"
+        @click="handleView($event, mode)"
       >
         {{ mode }}
       </li>
