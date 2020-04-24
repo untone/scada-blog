@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const api = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com/',
-  timeout: 15000,
+  timeout: 30000,
   headers: {
     'Content-type': 'application/json',
   },

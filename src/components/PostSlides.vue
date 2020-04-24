@@ -12,6 +12,9 @@ export default {
   },
   mixins: [PostsMixin, PostMixin],
   computed: {
+    placeholders() {
+      return new Array(3)
+    },
     options() {
       return {
         roundLengths: true,
@@ -21,28 +24,24 @@ export default {
         loop: false,
         watchOverflow: true,
         slidesPerView: 'auto',
-        // slidesPerGroup: 2,
         slidesOffsetBefore: 20,
         slidesOffsetAfter: 20,
         spaceBetween: 10,
         breakpoints: {
           640: {
             slidesPerView: 'auto',
-            // slidesPerGroup: 2,
             spaceBetween: 10,
             slidesOffsetBefore: 20,
             slidesOffsetAfter: 20,
           },
           768: {
             slidesPerView: 'auto',
-            // slidesPerGroup: 3,
             spaceBetween: 20,
             slidesOffsetBefore: 55,
             slidesOffsetAfter: 55,
           },
           1170: {
             slidesPerView: 'auto',
-            // slidesPerGroup: 3,
             spaceBetween: 20,
             slidesOffsetBefore: 0,
             slidesOffsetAfter: 0,
@@ -63,29 +62,40 @@ export default {
     :options="options"
     class="slides"
   >
-    <swiper-slide
-      v-for="(post, index) in slides"
-      :key="index"
-      class="slides__item"
-    >
-      <router-link
-        :key="post.id"
-        :to="{
-          name: 'Post',
-          params: {
-            id: post.id
-          }
-        }"
-        class="slides__link"
-        :event="''"
-        @click.native.prevent="openPostModal($event, post)"
+    <template v-if="postsReady">
+      <swiper-slide
+        v-for="(post, index) in slides"
+        :key="index"
+        class="slides__item"
       >
-        <h2 class="slides__title">
-          {{ post.title }}
-        </h2>
-        <span class="slides__more">Read more</span>
-      </router-link>
-    </swiper-slide>
+        <router-link
+          :key="post.id"
+          :to="{
+            name: 'Post',
+            params: {
+              id: post.id
+            }
+          }"
+          class="slides__link"
+          :event="''"
+          @click.native.prevent="openPostModal($event, post)"
+        >
+          <h2 class="slides__title">
+            {{ post.title }}
+          </h2>
+          <span class="slides__more">Read more</span>
+        </router-link>
+      </swiper-slide>
+    </template>
+    <template v-else>
+      <swiper-slide
+        v-for="(post, index) in placeholders"
+        :key="index"
+        class="slides__item"
+      >
+        <div class="slides__link" />
+      </swiper-slide>
+    </template>
   </swiper>
 </template>
 

@@ -23,7 +23,7 @@ export default {
 
 <template>
   <main class="main">
-    <template v-if="postsReady">
+    <template>
       <PostSlides />
       <PostsList />
       <PostModal />

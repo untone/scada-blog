@@ -1,4 +1,5 @@
 <script>
+import VClamp from 'vue-clamp'
 import PostsMixin from '@/mixins/posts'
 import PostMixin from '@/mixins/post'
 import Arrow from '@/assets/arrow.svg'
@@ -16,32 +17,45 @@ export default {
   components: {
     Arrow,
     Placeholder,
+    VClamp,
   },
 }
 </script>
 
 <template>
   <li class="posts__item">
-    <router-link
-      :key="post.id"
-      :to="{
-        name: 'Post',
-        params: {
-          id: post.id
-        }
-      }"
-      class="posts__link"
-      :event="''"
-      @click.native.prevent="openPostModal($event, post)"
-    >
-      <Placeholder class="posts__image" />
-      <div class="posts__wrap">
-        <h2 class="posts__title">
-          {{ post.title }}
-        </h2>
-        <Arrow class="posts__arrow" />
+    <template v-if="post">
+      <router-link
+        :key="post.id"
+        :to="{
+          name: 'Post',
+          params: {
+            id: post.id
+          }
+        }"
+        class="posts__link"
+        :event="''"
+        @click.native.prevent="openPostModal($event, post)"
+      >
+        <Placeholder class="posts__image" />
+        <div class="posts__wrap">
+          <v-clamp
+            tag="h2"
+            :max-lines="3"
+            autoresize
+            class="posts__title"
+          >
+            {{ post.title }}
+          </v-clamp>
+          <Arrow class="posts__arrow" />
+        </div>
+      </router-link>
+    </template>
+    <template v-else>
+      <div class="posts__link">
+        <span class="posts__title" />
       </div>
-    </router-link>
+    </template>
   </li>
 </template>
 

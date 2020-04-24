@@ -18,6 +18,9 @@ export default {
     }
   },
   computed: {
+    placeholders() {
+      return new Array(8)
+    },
     isDisabled() {
       return this.postsLoading || this.posts.length === this.postsCount
     },
@@ -52,11 +55,19 @@ export default {
       </li>
     </ul>
     <ul class="posts__list">
-      <PostsItem
-        v-for="(post, index) in posts"
-        :key="index"
-        :post="post"
-      />
+      <template v-if="postsReady">
+        <PostsItem
+          v-for="(post, index) in posts"
+          :key="index"
+          :post="post"
+        />
+      </template>
+      <template v-else>
+        <PostsItem
+          v-for="(post, index) in placeholders"
+          :key="index"
+        />
+      </template>
     </ul>
     <div class="posts__more">
       <button

@@ -89,3 +89,11 @@ textarea {
   @include sans-serif;
   outline: none;
 }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .15s;
+}
+.fade-enter {
+  opacity: 0;
+}
+

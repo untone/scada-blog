@@ -2,13 +2,18 @@ import { api } from '@/utils/api'
 
 const state = {
   created: false,
+  loading: false,
 }
 
 const getters = {
   created: state => state.created,
+  loading: state => state.loading,
 }
 
 const mutations = {
+  SET_LOADING(state, loading) {
+    state.loading = loading
+  },
   SET_CREATED(state, created) {
     state.created = created
   },
@@ -19,12 +24,10 @@ const mutations = {
 
 const actions = {
   async CREATE_POST({ commit }, payload) {
+    commit('SET_LOADING', true)
     const response = await api.post('posts', payload)
-    const { data } = response || {}
-    console.log('data', data)
     commit('SET_CREATED', true)
-    // commit('SET_LOADED', true)
-    // commit('SET_READY', true)
+    commit('SET_LOADING', false)
   },
   RESET_POST({ commit}) {
     commit('CLEAR_CREATED')

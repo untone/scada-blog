@@ -22,6 +22,7 @@ export default {
   computed: {
     ...mapGetters('create', [
       'created',
+      'loading',
     ]),
     resetDisabled() {
       return !this.title && !this.text
@@ -51,13 +52,15 @@ export default {
         this.submitForm()
       }
     },
-    submitForm() {
+    async submitForm() {
       const payload = JSON.stringify({
         title: this.title,
         text: this.text,
       })
-      this.createPost(payload)
-      console.log('submit!')
+      await this.createPost(payload)
+      setTimeout(() => {
+        this.resetPost()
+      }, 5000)
     },
     resetForm() {
       this.title = null
@@ -95,11 +98,12 @@ export default {
     >
       <fieldset class="create__form_wrap">
         <input
+          v-model="title"
+          :disabled="loading"
           autocomplete="off"
           name="title"
           type="text"
           placeholder="title"
-          v-model="title"
           @input="handleInput"
           class="create__form_input"
         >
@@ -115,11 +119,12 @@ export default {
       <fieldset class="create__form_wrap">
         <resizable-textarea>
           <textarea
+            v-model="text"
+            :disabled="loading"
             autocomplete="off"
             name="text"
             placeholder="text"
             class="create__form_input create__form_input--multiline"
-            v-model="text"
             @input="handleInput"
           />
         </resizable-textarea>
@@ -137,7 +142,7 @@ export default {
           class="create__form_button create__form_button--primary"
           @click="checkForm"
         >
-          add a post
+          {{ loading ? 'posting...' : 'add a post' }}
         </button>
         <button
           class="create__form_button create__form_button--secondary"
@@ -178,6 +183,15 @@ export default {
     font-size: rem(24px);
     line-height: rem(32px);
     text-align: center;
+  }
+
+  &__success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: rem(18px);
+    line-height: rem(24px);
+    color: var(--primary-color);
   }
 
   &__form {
@@ -281,13 +295,6 @@ export default {
       justify-content: space-between;
     }
   }
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .15s;
-}
-.fade-enter {
-  opacity: 0;
 }
 
 </style>
