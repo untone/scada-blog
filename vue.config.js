@@ -24,9 +24,7 @@ module.exports = {
       },
     },
   },
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/scada-blog/'
-    : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/scada-blog/' : '/',
   transpileDependencies: [
     'vue-clamp',
     'resize-detector',
