@@ -15,15 +15,12 @@ yarn serve
 yarn build
 ```
 
-### Run your unit tests
-```
-yarn test:unit
-```
+## Application details
 
-### Lints and fixes files
-```
-yarn lint
-```
+This is vue.js SPA built on vuex store with vue-router for routing. Each single post link is opened as modal and full page (for example, open in new tab or full page reload).
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Third-party libraries
+
+Vue-awesome-swiper build on top of Swiper for display posts as slide cards.
+VClamp utility for more accurate multiline text overflow.
+Vue-portal for discard side effects of modal positioning in DOM and rendering.
